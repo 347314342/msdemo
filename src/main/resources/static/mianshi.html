@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+
+<script type="text/javascript">
+    // 这个可有可无，没有这个则用$，有这句话则使用jq
+
+    function init(){
+        $.ajax({
+                async : false,
+                type : 'get',
+                url : '/userfield1',
+
+                success : function(data) {
+                var select = $("#a");
+
+                for (var i = 0; i < data.length; i++) {
+                    var v = data[i];
+                    select.append("<option value='" + v.field + "'>" + v.field + "</option>")
+                }
+            }
+
+            });
+
+    }
+
+
+    
+    function getb() {
+        var s=$("#b option:eq(0)").val();
+
+        //var s=$("#b option:selected").val();
+        for (var j=1;j<$("#b option").length;j++){
+            s=s+","+$("#b option:eq("+j+")").val();
+
+        }
+
+        getuserinformation(s);
+
+    }
+
+    function getuserinformation(s){
+        $.ajax({
+            async : false,
+            type : 'post',
+            url : '/getuserbyselect',
+            data:{s:s},
+            success : function(data) {
+
+
+
+                if(data.length==null&&data.length==""){
+                    alert("数据为空");
+                }
+                $('table').empty();
+                var titler = document.getElementById('table').insertRow();
+                for(var title in data[0])
+                {
+                    if (data[0][title]!=null&&data[0][title]!=="") {
+
+                        var cellt = titler.insertCell();
+                        cellt.innerText = title;
+                    }
+                }
+
+                for(var i=0;i < data.length;i++){
+                    var x = document.getElementById('table').insertRow();
+
+                    for(var key in data[i]){
+
+
+                        if (data[i][key]!=null&&data[i][key]!=="") {
+                            var cell = x.insertCell();
+                            cell.innerText = data[i][key];
+                        }
+                    }
+
+                }
+
+
+            }
+
+        });
+
+    }
+
+
+    var selectedCateIds = $("#b"); //已绑定菜单
+    function atb() {
+
+
+            var option = $("#a option:selected");
+            $("#b").append("<option value='"+ option.val() +"' >"+ option.text() +"</option>");
+            $("#a option:selected").remove();
+
+    }
+    // 点击 “移除”按钮
+    function bta() {
+        var option = $("#b option:selected");
+        $("#a").append("<option value='"+ option.val() +"' >"+ option.text() +"</option>");
+        $("#b option:selected").remove();
+    }
+    function check() {
+        getb();
+
+    }
+
+</script>
+<body onload="init()">
+<h1>人员信息查询页面</h1>
+<div style="float: left" >
+    <h2>选项</h2>
+    <select id="a" name="a" multiple="true"  size="25" >
+
+    </select>
+</div>
+<input id="jia" type="button" value="==>" ondblclick="atb()" >
+<input id="check" type="button" value="查询" ondblclick="check()" >
+<input id="jian" type="button" value="<==" ondblclick="bta()">
+<div style="float: right"  >
+    <h2>选中选项</h2>
+    <select id="b" name="b" multiple="true"  size="25"  >
+
+    </select>
+</div>
+
+<div>
+<table id="table" border="1">
+<tr>
+
+</tr>
+</table>
+</div>
+</body>
+</html>

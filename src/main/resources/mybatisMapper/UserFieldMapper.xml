@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace中的参数是对应的dao接口路径-->
+<mapper namespace="com.huki.msdemo.mapper.UserFieldMapper">
+
+    <resultMap id="UserField" type="com.huki.msdemo.Entity.UserField">
+        <!--id标签中放的主键result标签放的普通属性-->
+        <id     property="Field"        column="COLUMN_NAME"         javaType="String"/>
+
+    </resultMap>
+
+    <select id="selectField"  resultMap="UserField">
+        select COLUMN_NAME from information_schema.COLUMNS where table_name ='user'and TABLE_SCHEMA='oa'
+    </select>
+
+</mapper>

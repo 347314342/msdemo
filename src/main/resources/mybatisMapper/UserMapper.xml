@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace中的参数是对应的dao接口路径-->
+<mapper namespace="com.huki.msdemo.mapper.UserMapper">
+
+    <resultMap id="User" type="com.huki.msdemo.Entity.User">
+        <!--id标签中放的主键result标签放的普通属性-->
+        <id     property="id"        column="id"         javaType="Int"/>
+        <result property="name"         column="name"       javaType="String"/>
+        <result property="age"         column="age"        javaType="String"/>
+        <result property="email"         column="email"        javaType="String"/>
+        <result property="sex"         column="sex"        javaType="String"/>
+
+
+    </resultMap>
+    <!--parameterType是输入参数的类型，resultMap是返回参数的类型-->
+
+    <select id="selectAll"  resultMap="User">
+        select ${s} from user
+    </select>
+
+</mapper>
